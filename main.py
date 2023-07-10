@@ -9,6 +9,7 @@ class Expense:
 class ExpenseTracker:
     def __init__(self):
         self.expenses = []
+        self.expense_array = []
 
     def add_expense(self):
         amount = float(input("Enter the expense amount: "))
@@ -18,6 +19,7 @@ class ExpenseTracker:
 
         expense = Expense(amount, category, date, description)
         self.expenses.append(expense)
+        self.expense_array.append(f"Amount: {amount}, Category: {category}, Date: {date}, Description: {description}")
         print("Expense added successfully!")
 
     def generate_report(self):
@@ -28,6 +30,9 @@ class ExpenseTracker:
         report = f"Total expenses: {total_expenses}\n"
         report += f"Total amount spent: {total_amount}\n"
         report += f"Average amount per expense: {average_amount}\n"
+
+        for expense in self.expense_array:
+            report += f"{expense}\n"
 
         return report
 
