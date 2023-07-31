@@ -1,3 +1,5 @@
+import os
+
 class Expense:
     def __init__(self, amount, category, date, description):
         self.amount = amount
@@ -36,17 +38,37 @@ class ExpenseTracker:
 
         return report
 
+    def save_expenses_to_file(self, file_name):
+        with open(file_name, 'w') as file:
+            for expense in self.expense_array:
+                file.write(expense + '\n')
+        print(f"Expense details saved to {file_name}.")
+
+    def load_expenses_from_file(self, file_name):
+        if os.path.exists(file_name):
+            with open(file_name, 'r') as file:
+                self.expense_array = [line.strip() for line in file]
+            print(f"Expense details loaded from {file_name}.")
+        else:
+            print("File does not exist. No expenses loaded.")
+
 
 # Example usage:
 tracker = ExpenseTracker()
 
 while True:
-    choice = input("Enter 'A' to add an expense or 'R' to generate a report (or 'Q' to quit): ")
+    choice = input("Enter 'A' to add an expense, 'R' to generate a report, 'S' to save expenses, 'L' to load expenses, or 'Q' to quit: ")
     if choice.upper() == "A":
         tracker.add_expense()
     elif choice.upper() == "R":
         report = tracker.generate_report()
         print(report)
+    elif choice.upper() == "S":
+        file_name = input("Enter the file name to save the expenses: ")
+        tracker.save_expenses_to_file(file_name)
+    elif choice.upper() == "L":
+        file_name = input("Enter the file name to load the expenses: ")
+        tracker.load_expenses_from_file(file_name)
     elif choice.upper() == "Q":
         break
     else:
